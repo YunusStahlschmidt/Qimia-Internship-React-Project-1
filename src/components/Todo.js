@@ -16,16 +16,18 @@ export default function Todo({ todo, index, markTodo, removeTodo, setIsEditing, 
     }
 
     return (
-        <div className="todo">
-            <Checkbox checked={ todo.isDone ? true : false } color="primary" onChange={() => markTodo(index)} />
-            <span style={{ textDecoration: todo.isDone ? "line-through" : "" }}>{index+1}. {todo.text}</span>
-            <IconButton aria-label="edit" color="primary" onClick={() => editTodo()}>
-                <EditIcon />
-            </IconButton>
-            <IconButton aria-label="delete" color="primary" onClick={() => removeTodo(index)}>
-                <DeleteForeverIcon />
-            </IconButton>
-            <div>
+        <div className="row">
+            <div className="col-10">
+                <Checkbox checked={ todo.isDone ? true : false } color="primary" onChange={() => markTodo(index)} />
+                <span style={{ textDecoration: todo.isDone ? "line-through" : "" }}>{index+1}. {todo.text}</span>
+            </div>
+            <div className="col-2">
+                <IconButton aria-label="edit" color="primary" onClick={() => editTodo()}>
+                    <EditIcon />
+                </IconButton>
+                <IconButton color="primary" onClick={() => removeTodo(index)}>
+                    <DeleteForeverIcon />
+                </IconButton>
             </div>
         </div>
     )

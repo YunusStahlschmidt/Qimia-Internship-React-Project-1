@@ -31,7 +31,7 @@ export default function FormTodo({ addTodo, isEditing, setIsEditing, value, setV
         variant="contained"
         color="primary"
         size="large"
-        // className={classes.button}
+        className="mt-2"
         startIcon={<AddBoxIcon />}
         type="submit"
       >
@@ -42,7 +42,7 @@ export default function FormTodo({ addTodo, isEditing, setIsEditing, value, setV
         variant="contained"
         color="primary"
         size="large"
-        // className={classes.button}
+        className="mt-2"
         startIcon={<SaveIcon />}
         onClick={() => {handleSave()}}
       >

@@ -8,12 +8,14 @@ import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import SummaryItem from './SummaryItem';
+import styles from '../App.css';
 
 export default function TaskList() {
     const [isEditing, setIsEditing] = useState(false);
     const [value, setValue] = useState("");
     const [indexOfEdit, setIndexOfEdit] = useState();
-    const [showSummary, setShowSummary] = useState(false)
+    const [showSummary, setShowSummary] = useState(false);
+    const [itemsDoneCount, setItemsDoneCount] = useState(0);
 
     const [todos, setTodos] = useState([
         {
@@ -27,10 +29,12 @@ export default function TaskList() {
         newTodos.forEach((element) => {
             element.isDone = false;
         });
+        setItemsDoneCount(0);
         setTodos(newTodos);
     };
 
     const removeAll = () => {
+        setItemsDoneCount(0);
         setTodos([]);
     };
 
@@ -42,12 +46,14 @@ export default function TaskList() {
     const markTodo = index => {
         const newTodos = [...todos];
         newTodos[index].isDone = !newTodos[index].isDone;
+        newTodos[index].isDone ? setItemsDoneCount(itemsDoneCount+1) : setItemsDoneCount(itemsDoneCount-1);
         setTodos(newTodos);
     };
 
     const removeTodo = index => {
         const newTodos = [...todos];
         newTodos.splice(index, 1);
+        setItemsDoneCount(0);
         setTodos(newTodos);
     };
 
@@ -57,36 +63,12 @@ export default function TaskList() {
         setTodos(newTodos);
     };
 
-    const showSummaryItems = () => {
-        todos.forEach((element) => {
-            console.log(element.isDone);
-            
-            if (!element.isDone){
-                return (
-                    <Card>
-                    <Card.Body>
-                        <Todo
-                        key={element.index}
-                        index={element.index}
-                        todo={element}
-                        // markTodo={markTodo}
-                        // removeTodo={removeTodo}
-                        // setIsEditing={setIsEditing}
-                        // setValue={setValue}
-                        // setIndexOfEdit={setIndexOfEdit}
-                        />
-                    </Card.Body>
-                    </Card>
-                )
-            }
-        });
-    }
 
     return (
         <div className="container">
             { !showSummary ? 
                 <div>
-                    <h1 className="text-center mb-4">Todo List</h1>
+                    <h1 className="text-center m-4">Todo List</h1>
                     <FormTodo 
                         addTodo={addTodo} 
                         isEditing={isEditing} 
@@ -95,6 +77,9 @@ export default function TaskList() {
                         setValue={setValue}
                         saveEditTodo={saveEditTodo}
                     />
+                    <div>
+                        <p className="mt-4">[{itemsDoneCount} of {todos.length} items completed]</p>
+                    </div>
                     <div>
                     {todos.map((todo, index) => (
                         <Card>
@@ -113,12 +98,12 @@ export default function TaskList() {
                         </Card>
                     ))}
                     </div>
-                    <div>
+                    <div className="row justify-content-md-center mt-2">
                         <Button
                             variant="contained"
                             color="primary"
                             size="large"
-                            // className={classes.button}
+                            className="col col-2 m-2"
                             startIcon={<DeleteSweepIcon />}
                             onClick={() => {clearAll()}}
                         >
@@ -128,19 +113,19 @@ export default function TaskList() {
                             variant="contained"
                             color="primary"
                             size="large"
-                            // className={classes.button}
+                            className="col col-2 m-2"
                             startIcon={<RemoveCircleIcon />}
                             onClick={() => {removeAll()}}
                         >
                             Remove All
                         </Button>
                     </div>
-                    <div>
+                    <div className="row justify-content-md-center">
                         <Button
                             variant="contained"
                             color="primary"
                             size="large"
-                            // className={classes.button}
+                            className="col col-2 mt-2"
                             startIcon={<AssessmentIcon />}
                             onClick={() => {setShowSummary(true)}}
                         >
@@ -150,7 +135,8 @@ export default function TaskList() {
                 </div>
             :
                 <div>
-                    <h1 className="text-center mb-4">Summary</h1>
+                    <h1 className="text-center m-4">Summary</h1>
+                    <p className="mb-3">List of items completed:</p>
                     <div>
                     {todos.map((todo, index) => {
                         if (todo.isDone) 
@@ -172,7 +158,7 @@ export default function TaskList() {
                             variant="contained"
                             color="primary"
                             size="large"
-                            // className={classes.button}
+                            className="mt-4"
                             startIcon={<ArrowBackIcon />}
                             onClick={() => {setShowSummary(false)}}
                         >
