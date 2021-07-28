@@ -1,13 +1,20 @@
 
-import React, { useState, Component } from 'react'
-import TaskList from './components/TaskList';
+import React from 'react'
+import TaskList from './routes/TaskList';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { positions, Provider } from "react-alert";
+import AlertMUITemplate from "react-alert-template-mui";
+
+const options = {
+	position: positions.MIDDLE
+};
+
 
 export default function App() {
 	return (
-		<div class="App">
-			<TaskList/>			
-		</div>
+		<Provider template={AlertMUITemplate} {...options}>
+			<TaskList/>	
+		</Provider>
 	)
 }
 

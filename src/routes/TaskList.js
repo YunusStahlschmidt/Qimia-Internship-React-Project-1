@@ -1,16 +1,19 @@
 import React, {useState} from 'react'
-import Todo from './Todo';
-import FormTodo from './FormTodo';
+import Todo from '../components/Todo';
+import FormTodo from '../components/FormTodo';
+import SummaryItem from '../components/SummaryItem';
+import ButtonMU from '../components/ButtonMU';
 import { Card } from 'react-bootstrap';
-import Button from '@material-ui/core/Button';
 import DeleteSweepIcon from '@material-ui/icons/DeleteSweep';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import SummaryItem from './SummaryItem';
 import styles from '../App.css';
+import { useAlert } from "react-alert";
+
 
 export default function TaskList() {
+    const alert = useAlert();
     const [isEditing, setIsEditing] = useState(false);
     const [value, setValue] = useState("");
     const [indexOfEdit, setIndexOfEdit] = useState();
@@ -25,18 +28,38 @@ export default function TaskList() {
     ]);
 
     const clearAll = () => {
-        const newTodos = [...todos];
-        newTodos.forEach((element) => {
-            element.isDone = false;
+        alert.show("Are you sure you want to clear all task?", {
+            actions: [
+                {
+                    copy: "Confirm",
+                    onClick: () => {
+                        const newTodos = [...todos];
+                        newTodos.forEach((element) => {
+                            element.isDone = false;
+                        });
+                        setItemsDoneCount(0);
+                        setTodos(newTodos);
+                    },
+                }
+            ],
+            closeCopy: "Cancel"
         });
-        setItemsDoneCount(0);
-        setTodos(newTodos);
     };
 
     const removeAll = () => {
-        setItemsDoneCount(0);
-        setTodos([]);
-    };
+        alert.show("Are you sure you want to remove all task?", {
+          actions: [
+            {
+                copy: "Confirm",
+                onClick: () => {
+                    setItemsDoneCount(0);
+                    setTodos([]);
+                },
+            }
+          ],
+          closeCopy: "Cancel"
+        });
+    }
 
     const addTodo = text => {
         const newTodos = [...todos, { text }];
@@ -51,11 +74,21 @@ export default function TaskList() {
     };
 
     const removeTodo = index => {
-        const newTodos = [...todos];
-        newTodos.splice(index, 1);
-        setItemsDoneCount(0);
-        setTodos(newTodos);
-    };
+        alert.show("Are you sure you want to delete this task?", {
+          actions: [
+            {
+                copy: "Confirm",
+                onClick: () => {
+                    const newTodos = [...todos];
+                    if (newTodos[index].isDone) {setItemsDoneCount(itemsDoneCount-1)}
+                    newTodos.splice(index, 1);
+                    setTodos(newTodos);
+                },
+            }
+          ],
+          closeCopy: "Cancel"
+        });
+    }
 
     const saveEditTodo = () => {
         const newTodos = [...todos];
@@ -78,7 +111,7 @@ export default function TaskList() {
                         saveEditTodo={saveEditTodo}
                     />
                     <div>
-                        <p className="mt-4">[{itemsDoneCount} of {todos.length} items completed]</p>
+                        <p>[{itemsDoneCount} of {todos.length} items completed]</p>
                     </div>
                     <div>
                     {todos.map((todo, index) => (
@@ -99,38 +132,26 @@ export default function TaskList() {
                     ))}
                     </div>
                     <div className="row justify-content-md-center mt-2">
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            size="large"
-                            className="col col-2 m-2"
-                            startIcon={<DeleteSweepIcon />}
+                        <ButtonMU 
+                            className="col-2 m-2" 
+                            icon={<DeleteSweepIcon />} 
                             onClick={() => {clearAll()}}
-                        >
-                            Clear All
-                        </Button>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            size="large"
-                            className="col col-2 m-2"
-                            startIcon={<RemoveCircleIcon />}
+                            text="Clear All"
+                        />
+                        <ButtonMU 
+                            className="col-2 m-2" 
+                            icon={<RemoveCircleIcon />} 
                             onClick={() => {removeAll()}}
-                        >
-                            Remove All
-                        </Button>
+                            text="Remove All"
+                        />
                     </div>
                     <div className="row justify-content-md-center">
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            size="large"
-                            className="col col-2 mt-2"
-                            startIcon={<AssessmentIcon />}
+                        <ButtonMU 
+                            className="col-2 mt-2" 
+                            icon={<AssessmentIcon />} 
                             onClick={() => {setShowSummary(true)}}
-                        >
-                            Summary
-                        </Button>
+                            text="Summary"
+                        />
                     </div>
                 </div>
             :
@@ -154,16 +175,12 @@ export default function TaskList() {
                     })}
                     </div>
                     <div>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            size="large"
-                            className="mt-4"
-                            startIcon={<ArrowBackIcon />}
+                        <ButtonMU 
+                            className="mt-4" 
+                            icon={<ArrowBackIcon />} 
                             onClick={() => {setShowSummary(false)}}
-                        >
-                            Back
-                        </Button>
+                            text="Back"
+                        />
                     </div>
                 </div>
         }

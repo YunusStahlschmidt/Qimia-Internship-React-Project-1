@@ -1,7 +1,5 @@
 import React from 'react'
-import { Button } from 'react-bootstrap';
 import IconButton from '@material-ui/core/IconButton';
-
 import Checkbox from '@material-ui/core/Checkbox';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import EditIcon from '@material-ui/icons/Edit';

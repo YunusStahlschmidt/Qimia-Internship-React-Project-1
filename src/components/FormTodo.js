@@ -1,8 +1,9 @@
-import React, {useState} from 'react'
-import { Card, Form } from 'react-bootstrap';
-import Button from '@material-ui/core/Button';
+import React from 'react'
+import { Form } from 'react-bootstrap';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import SaveIcon from '@material-ui/icons/Save';
+import ButtonMU from '../components/ButtonMU';
+import CancelIcon from '@material-ui/icons/Cancel';
 
 
 export default function FormTodo({ addTodo, isEditing, setIsEditing, value, setValue, saveEditTodo }) {
@@ -20,6 +21,12 @@ export default function FormTodo({ addTodo, isEditing, setIsEditing, value, setV
       setValue("");
       setIsEditing(false);
     }
+
+	const cancelEdit = () => {
+		if (!value) return;
+		setValue("");
+		setIsEditing(false);
+	}
   
     return (
       <Form onSubmit={handleSubmit}> 
@@ -27,27 +34,29 @@ export default function FormTodo({ addTodo, isEditing, setIsEditing, value, setV
         <Form.Control type="text" className="input" value={value} onChange={e => setValue(e.target.value)} placeholder="Add new todo" />
       </Form.Group>
       { !isEditing ? 
-      <Button
-        variant="contained"
-        color="primary"
-        size="large"
-        className="mt-2"
-        startIcon={<AddBoxIcon />}
-        type="submit"
-      >
-        Add
-      </Button>
+	  <div className="row p-1">
+		<ButtonMU 
+			className="col-1 m-2" 
+			icon={<AddBoxIcon />} 
+			type="submit"
+			text="Add"
+		/>
+	  </div>
       :
-      <Button
-        variant="contained"
-        color="primary"
-        size="large"
-        className="mt-2"
-        startIcon={<SaveIcon />}
-        onClick={() => {handleSave()}}
-      >
-        Save
-      </Button>
+	  <div className="row p-1">
+		  <ButtonMU 
+				className="col-1 m-2" 
+				icon={<SaveIcon />} 
+				onClick={() => {handleSave()}}
+				text="Save"
+			/>
+			<ButtonMU 
+				className="col-1 m-2" 
+				icon={<CancelIcon />} 
+				onClick={() => {cancelEdit()}}
+				text="Cancel"
+			/>
+	  </div>
       }
     </Form>
     );
