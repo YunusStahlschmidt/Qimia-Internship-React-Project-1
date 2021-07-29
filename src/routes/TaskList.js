@@ -8,10 +8,9 @@ import DeleteSweepIcon from '@material-ui/icons/DeleteSweep';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import styles from '../App.css';
 import { useAlert } from "react-alert";
 
-
+ 
 export default function TaskList() {
     const alert = useAlert();
     const [isEditing, setIsEditing] = useState(false);
@@ -28,17 +27,15 @@ export default function TaskList() {
     ]);
 
     const clearAll = () => {
-        alert.show("Are you sure you want to clear all task?", {
+        alert.show("Are you sure you want to clear all tasks?", {
             actions: [
                 {
                     copy: "Confirm",
                     onClick: () => {
-                        const newTodos = [...todos];
-                        newTodos.forEach((element) => {
+                        [...todos].forEach((element) => {
                             element.isDone = false;
                         });
                         setItemsDoneCount(0);
-                        setTodos(newTodos);
                     },
                 }
             ],
@@ -47,7 +44,7 @@ export default function TaskList() {
     };
 
     const removeAll = () => {
-        alert.show("Are you sure you want to remove all task?", {
+        alert.show("Are you sure you want to remove all tasks?", {
           actions: [
             {
                 copy: "Confirm",
@@ -131,23 +128,23 @@ export default function TaskList() {
                         </Card>
                     ))}
                     </div>
-                    <div className="row justify-content-md-center mt-2">
+                    <div className="row justify-content-sm-center mt-2">
                         <ButtonMU 
-                            className="col-2 m-2" 
+                            className="col-xs-auto col-md-2 m-2" 
                             icon={<DeleteSweepIcon />} 
                             onClick={() => {clearAll()}}
                             text="Clear All"
                         />
                         <ButtonMU 
-                            className="col-2 m-2" 
+                            className="col-xs-auto col-md-2 m-2" 
                             icon={<RemoveCircleIcon />} 
                             onClick={() => {removeAll()}}
                             text="Remove All"
                         />
                     </div>
-                    <div className="row justify-content-md-center">
+                    <div className="row justify-content-sm-center">
                         <ButtonMU 
-                            className="col-2 mt-2" 
+                            className="col-xs-auto col-md-2 mt-2" 
                             icon={<AssessmentIcon />} 
                             onClick={() => {setShowSummary(true)}}
                             text="Summary"

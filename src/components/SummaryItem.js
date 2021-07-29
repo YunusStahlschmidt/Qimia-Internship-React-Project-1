@@ -5,11 +5,11 @@ import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 export default function SummaryItem({ todo, index }) {
 
     return (
-        <div className="row">
-            <div className="col-11">
+        <div className="row justify-content-between">
+            <div className="col-sm-auto">
                 <span>{index+1}. {todo.text} </span>
             </div>
-            <div className="col-1">
+            <div className="col-sm-auto">
                 <AssignmentTurnedInIcon color="primary"/> 
             </div>
         </div>

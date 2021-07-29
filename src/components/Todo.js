@@ -14,12 +14,12 @@ export default function Todo({ todo, index, markTodo, removeTodo, setIsEditing, 
     }
 
     return (
-        <div className="row">
-            <div className="col-10">
+        <div className="row justify-content-between">
+            <div className="col-sm-auto">
                 <Checkbox checked={ todo.isDone ? true : false } color="primary" onChange={() => markTodo(index)} />
                 <span style={{ textDecoration: todo.isDone ? "line-through" : "" }}>{index+1}. {todo.text}</span>
             </div>
-            <div className="col-2">
+            <div className="col-sm-auto">
                 <IconButton aria-label="edit" color="primary" onClick={() => editTodo()}>
                     <EditIcon />
                 </IconButton>
